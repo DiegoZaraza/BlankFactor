@@ -23,7 +23,7 @@ public class BasePage {
     }
 
     public void waitForVisibility(WebElement e) {
-        WebDriverWait wait = new WebDriverWait(driver, 40);
+        WebDriverWait wait = new WebDriverWait(driver, 15);
         wait.until(ExpectedConditions.visibilityOf(e));
     }
 

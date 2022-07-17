@@ -10,6 +10,9 @@ public class IndexPage extends BasePage{
     @FindBy(xpath = "//*[@id=\"menu-item-4436\"]/a")
     WebElement linkInsight;
 
+    @FindBy(id = "hs-eu-confirmation-button")
+    WebElement acceptCookies;
+
     public IndexPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
@@ -17,5 +20,10 @@ public class IndexPage extends BasePage{
 
     public void setLinkInsight() {
         click(linkInsight, "Click on link Insight");
+    }
+
+    public void setAcceptCookies() {
+        waitForVisibility(acceptCookies);
+        click(acceptCookies, "");
     }
 }
