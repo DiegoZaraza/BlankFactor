@@ -9,8 +9,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.assertj.core.api.SoftAssertions;
-import org.blankfactor.pageobject.BasePage;
-import org.blankfactor.pageobject.IndexPage;
+import org.blankfactor.pageobject.*;
 import org.blankfactor.utilities.PropertiesRead;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -22,14 +21,22 @@ public class StepDefinitions {
     private IndexPage indexPage;
     private Faker faker;
 
+    private BlogPage blogPage;
+    private InsightPage insightPage;
+    private ArticlePage articlePage;
+
     @Before
     public void setup() {
         WebDriverManager.chromedriver().setup();
-        webDriver = new ChromeDriver();
+        webDriver = WebDriverManager.chromedriver().create();
         indexPage = new IndexPage(webDriver);
+        insightPage = new InsightPage(webDriver);
+        blogPage = new BlogPage(webDriver);
+        articlePage = new ArticlePage(webDriver);
         softAssertions = new SoftAssertions();
         faker = new Faker();
         webDriver.manage().window().maximize();
+        BasePage.setImplicitlyWait();
     }
 
     @Given("Navigate to blankfactor.com")
@@ -46,7 +53,7 @@ public class StepDefinitions {
 
     @And("Click on Blog option")
     public void clickOnBlogOption() {
-
+        insightPage.setGoToBlog();
     }
 
 
@@ -63,15 +70,19 @@ public class StepDefinitions {
     }
 
     @And("Find the blog {string}")
-    public void findTheBlog(String value) {
+    public void findTheBlog(String value) throws InterruptedException {
+        blogPage.searchArticle("Why Fintech in Latin America Is Having a Boom");
     }
+
 
     @Then("Validate the URL {string}")
     public void validateTheURL(String value) {
+        softAssertions.assertThat(value.equals(webDriver.getCurrentUrl()));
     }
 
     @And("Validate title {string}")
     public void validateTitle(String value) {
+        softAssertions.assertThat(value.equals(articlePage.getTitle()));
     }
 
     @When("Insert the mail {string}")
@@ -80,7 +91,7 @@ public class StepDefinitions {
 
     @After
     public void end() {
-        //softAssertions.assertAll();
+        softAssertions.assertAll();
         if (webDriver != null) {
             webDriver.quit();
         }

@@ -6,6 +6,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class BasePage {
@@ -19,17 +22,26 @@ public class BasePage {
 
     public static void setImplicitlyWait() {
         log.info("Timeout is " + TIMEOUT);
-        driver.manage().timeouts().implicitlyWait(TIMEOUT, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(TIMEOUT));
     }
 
     public void waitForVisibility(WebElement e) {
-        WebDriverWait wait = new WebDriverWait(driver, 15);
-        wait.until(ExpectedConditions.visibilityOf(e));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        wait.until(ExpectedConditions.elementToBeClickable(e));
     }
 
     public void click(WebElement e, String msg) {
         log.info(msg);
+        waitForVisibility(e);
         e.click();
+    }
+
+    public String findObject(List<WebElement> e, String msg) {
+        log.info(msg);
+        for (WebElement element : e) {
+            System.out.println("Paragraph text:" + element.getText());
+        }
+        return "";
     }
 
     public void clearTxt(WebElement e, String msg) {

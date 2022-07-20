@@ -10,21 +10,23 @@ repositories {
 }
 
 project.ext {
-    cucumberVersion = '5.6.0'
+    cucumberVersion = '7.4.1'
+    seleniumVersion = '4.3.0'
+    assertVersion = '3.23.1'
+    slf4jVersion = '1.7.36'
 
 }
 
 dependencies {
-    testImplementation 'io.cucumber:cucumber-java:' + cucumberVersion
-    testImplementation 'io.cucumber:cucumber-junit:' + cucumberVersion
-    implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
-    implementation 'org.seleniumhq.selenium:selenium-chrome-driver:3.141.59'
-    implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.0.1'
+    testImplementation group: 'io.cucumber', name: 'cucumber-java', version: cucumberVersion
+    testImplementation group: 'io.cucumber', name: 'cucumber-junit', version: cucumberVersion
     testImplementation group: 'com.github.javafaker', name: 'javafaker', version: '1.0.2'
-    testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.16.1'
+    testImplementation group: 'org.assertj', name: 'assertj-core', version: assertVersion
+    testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: slf4jVersion
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: seleniumVersion
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-chrome-driver', version: seleniumVersion
+    implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.0.1'
     implementation group: 'log4j', name: 'log4j', version: '1.2.17'
-    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.32'
-    testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.32'
 }
 
 configurations {
@@ -41,7 +43,7 @@ task cucumber() {
             classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
 
             args = [
-                    '--plugin', 'html:reports/test-report',
+                    '--plugin', 'html:reports/test-report/report.html',
                     '--plugin', 'pretty',
                     '--glue', 'org.blankfactor.steps', 'src/test/resources',
                     '--tags', '@Execution'
