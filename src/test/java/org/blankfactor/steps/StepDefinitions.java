@@ -20,7 +20,6 @@ public class StepDefinitions {
     private SoftAssertions softAssertions;
     private IndexPage indexPage;
     private Faker faker;
-
     private BlogPage blogPage;
     private InsightPage insightPage;
     private ArticlePage articlePage;
@@ -59,14 +58,17 @@ public class StepDefinitions {
 
     @Then("Validate error of subcription")
     public void validateErrorOfSubcription() {
+        softAssertions.assertThat(insightPage.getErrorMessage());
     }
 
     @Then("Validate subcription successful")
     public void validateSubcriptionSuccessful() {
+        softAssertions.assertThat(insightPage.getSuccessMessage());
     }
 
     @Then("Print the list of all blog titles")
-    public void printTheListOfAllBlogTitles() {
+    public void printTheListOfAllBlogTitles() throws InterruptedException {
+        blogPage.printArticle();
     }
 
     @And("Find the blog {string}")
@@ -87,6 +89,8 @@ public class StepDefinitions {
 
     @When("Insert the mail {string}")
     public void insertTheMail(String value) {
+        insightPage.setTxtEMailSubscriber(value);
+        insightPage.setBtnSubmit();
     }
 
     @After

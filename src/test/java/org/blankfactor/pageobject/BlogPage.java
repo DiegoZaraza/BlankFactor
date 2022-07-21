@@ -46,4 +46,17 @@ public class BlogPage extends BasePage{
                 setButtonLoadMore();
         }
     }
+
+    public void printArticle() throws InterruptedException {
+        String title;
+        Boolean band = true;
+        while(isDisplayed(buttonLoadMore, "")){
+            setButtonLoadMore();
+            Thread.sleep(3000);
+        }
+        for (WebElement article : articles) {
+            title = article.findElement(By.tagName("h2")).getText() + " - " + article.findElement(By.tagName("a")).getAttribute("href");
+            System.out.println(title);
+        }
+    }
 }

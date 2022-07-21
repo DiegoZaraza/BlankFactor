@@ -1,6 +1,6 @@
+@Execution
 Feature: Automation for blankfactor page
 
-  @Execution
   Scenario: Navigate for blog options and validate information
     Given Navigate to blankfactor.com
     When Click on Insights option
@@ -11,12 +11,14 @@ Feature: Automation for blankfactor page
 
   Scenario: Error on subscribe on newlesster
     Given Navigate to blankfactor.com
-    When Insert the mail 'prueba@prueba.com'
+    When Click on Insights option
+    And Insert the mail 'prueba@prueba.com'
     Then Validate error of subcription
 
   Scenario: Successful on subscribe on newlesster
     Given Navigate to blankfactor.com
-    When Insert the mail 'prubasblankfactor@gmail.com'
+    When Click on Insights option
+    And Insert the mail 'prubasblankfactor@gmail.com'
     Then Validate subcription successful
 
   Scenario: Print list of blog title
